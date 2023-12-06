@@ -7,20 +7,21 @@ app.use(express.json());
 app.use(
   express.urlencoded({
     extended: true,
-  })
+  }),
 );
 
-const db = require("./app/models");
+const db = require("./models");
 db.sequelize
   .sync()
   .then(() => {
     console.log("Synced db.");
   })
   .catch((err) => {
-    console.log("Failed to sync db: " + err.message);
+    console.log("Failed to sync db: " + err);
+    process.exit();
   });
 
-require("./app/routes/turorial.routes")(app);
+require("./routes/tutorial.routes.js")(app);
 
 app.get("/", (req, res) => {
   res.json({ welcome: "Root of AigrieTeam website" });
